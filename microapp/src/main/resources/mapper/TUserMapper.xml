@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ts.dao.TUserMapper" >
+  <resultMap id="BaseResultMap" type="com.ts.pojo.TUser" >
+    <id column="c_id" property="cId" jdbcType="CHAR" />
+    <result column="c_name" property="cName" jdbcType="VARCHAR" />
+    <result column="c_pwd" property="cPwd" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    c_id, c_name, c_pwd
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where c_id = #{cId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_user
+    where c_id = #{cId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ts.pojo.TUser" >
+    insert into t_user (c_id, c_name, c_pwd
+      )
+    values (#{cId,jdbcType=CHAR}, #{cName,jdbcType=VARCHAR}, #{cPwd,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ts.pojo.TUser" >
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        c_id,
+      </if>
+      <if test="cName != null" >
+        c_name,
+      </if>
+      <if test="cPwd != null" >
+        c_pwd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        #{cId,jdbcType=CHAR},
+      </if>
+      <if test="cName != null" >
+        #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cPwd != null" >
+        #{cPwd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ts.pojo.TUser" >
+    update t_user
+    <set >
+      <if test="cName != null" >
+        c_name = #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cPwd != null" >
+        c_pwd = #{cPwd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where c_id = #{cId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ts.pojo.TUser" >
+    update t_user
+    set c_name = #{cName,jdbcType=VARCHAR},
+      c_pwd = #{cPwd,jdbcType=VARCHAR}
+    where c_id = #{cId,jdbcType=CHAR}
+  </update>
+  <select id="getUserByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT c_id, c_name, c_pwd FROM t_user WHERE c_name = #{cName,jdbcType=VARCHAR}
+  </select>
+</mapper>
